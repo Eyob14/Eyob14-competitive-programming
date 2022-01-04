@@ -1,16 +1,13 @@
-def maxFrequency(changed):
-        changed.sort()
-        print(changed)
-        if len(changed)%2 != 0:
-            return []
-        else:
-            for i in changed:
-                if (i*2) in changed:
-                    changed.remove(i*2)
-                else:
-                    return []
-            return changed
-
-changed = [1,2,3,4,5]
-print(maxFrequency(changed))
-        
+class Solution:
+    def maxFrequency(self, nums: List[int], k: int) -> int:
+        nums.sort()
+        maxFre = 1
+        l,u = len(nums)-1,len(nums)-1
+        while u >= maxFre:
+            while l and k-(nums[u]-nums[l-1])>=0:
+                k -= nums[u]-nums[l-1]
+                l -= 1
+            maxFre = max(maxFre,u-l+1) 
+            k += (u-l) * (nums[u] - nums[u-1])
+            u-=1
+        return maxFre
